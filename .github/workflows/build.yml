@@ -74,6 +74,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: derive lowercase image owner
+        id: image_owner
+        run: echo "value=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
       - name: build and push
         uses: docker/build-push-action@v6
         with:
@@ -81,5 +84,5 @@ jobs:
           push: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository_owner }}/swarmpit:latest
-            ghcr.io/${{ github.repository_owner }}/swarmpit:${{ github.sha }}
+            ghcr.io/${{ steps.image_owner.outputs.value }}/swarmpit:latest
+            ghcr.io/${{ steps.image_owner.outputs.value }}/swarmpit:${{ github.sha }}
