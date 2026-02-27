@@ -2,10 +2,11 @@ version: '3.3'
 
 services:
   app:
-    image: swarmpit/swarmpit:latest
+    image: ${SWARMPIT_IMAGE:-ghcr.io/senseware/swarmpit:latest}
     environment:
       - SWARMPIT_DB=http://db:5984
       - SWARMPIT_INFLUXDB=http://influxdb:8086
+      - SWARMPIT_DOCKER_API=1.52
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
@@ -60,9 +61,9 @@ services:
           memory: 128M
 
   agent:
-    image: swarmpit/agent:latest
+    image: ${SWARMPIT_AGENT_IMAGE:-ghcr.io/senseware/swarmpit-agent:latest}
     environment:
-      - DOCKER_API_VERSION=1.35
+      - DOCKER_API_VERSION=1.52
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:

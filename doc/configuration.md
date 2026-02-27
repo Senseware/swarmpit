@@ -8,7 +8,8 @@ Default is `/var/run/docker.sock`.
 
 ## `SWARMPIT_DOCKER_API`
 Docker API version used by docker client.
-Default is `1.30`.
+Default is `1.52` (Docker v29.0 API level).
+For modern Docker Engine releases, use at least `1.44`.
 
 ## `SWARMPIT_DOCKER_HTTP_TIMEOUT`
 Docker client http timeout in ms.

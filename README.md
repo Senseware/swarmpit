@@ -2,6 +2,30 @@
 
 Lightweight mobile-friendly Docker Swarm management UI
 
+## Senseware Fork Notice
+
+This repository is maintained by Senseware as a fork of `swarmpit/swarmpit`.
+
+Why we forked:
+
+- Upstream moved to maintenance mode.
+- Legacy Docker API defaults in upstream builds (`1.30`) fail on modern Docker daemons that require API `1.44+`.
+
+What this fork maintains:
+
+- Default Docker API target `1.52` (Docker v29.0 API level), with runtime override support.
+- Paired deployment with the Senseware-maintained agent fork.
+- Build and release pipeline for `ghcr.io/senseware/swarmpit` and `ghcr.io/senseware/swarmpit-agent`.
+
+Issue tracking for this fork:
+
+- App/UI/API issues: https://github.com/Senseware/swarmpit/issues
+- Agent/runtime issues: https://github.com/Senseware/swarmpit-agent/issues
+
+Changelog:
+
+- [CHANGELOG.md](CHANGELOG.md)
+
 ⚠️ **Status:** This UI is in maintenance mode. Click [here](https://github.com/swarmpit/swarmpit/issues/719) for details.
 
 [![version](https://img.shields.io/github/release-pre/swarmpit/swarmpit.svg)](https://github.com/swarmpit/swarmpit/releases) 
@@ -24,7 +48,7 @@ More details about future and past releases can be found in [ROADMAP.md](ROADMAP
 
 ## Installation
 
-The only dependency for Swarmpit deployment is Docker with Swarm initialized, we are supporting Docker 1.13 and newer. Linux hosts on x86 and ARM architectures are supported as well.
+The only dependency for Swarmpit deployment is Docker with Swarm initialized. This fork targets Docker Engine API `1.52` by default (Docker v29.0 API level) and requires daemons that support at least API `1.44`. If needed, override `SWARMPIT_DOCKER_API` and `DOCKER_API_VERSION` in your stack environment.
 
 ### Package installer
 Installer is your guide to setup Swarmpit platform. For more details see the [installer](https://github.com/swarmpit/installer)
@@ -52,21 +76,25 @@ docker run -it --rm \
 Deploy Swarmpit by using a compose file from our git repo with branch of corresponding version.
 
 ```
-git clone https://github.com/swarmpit/swarmpit -b master
+git clone https://github.com/Senseware/swarmpit -b master
+export SWARMPIT_IMAGE=ghcr.io/senseware/swarmpit:latest
+export SWARMPIT_AGENT_IMAGE=ghcr.io/senseware/swarmpit-agent:latest
 docker stack deploy -c swarmpit/docker-compose.yml swarmpit
 ```
 
 For ARM based cluster use custom compose file.
 
 ```
-git clone https://github.com/swarmpit/swarmpit -b master
+git clone https://github.com/Senseware/swarmpit -b master
+export SWARMPIT_IMAGE=ghcr.io/senseware/swarmpit:latest
+export SWARMPIT_AGENT_IMAGE=ghcr.io/senseware/swarmpit-agent:latest
 docker stack deploy -c swarmpit/docker-compose.arm.yml swarmpit
 ```
 
 [This stack](docker-compose.yml) is a composition of 4 services:
 
 * app - Swarmpit
-* [agent](https://github.com/swarmpit/agent) - Swarmpit agent
+* [swarmpit-agent](https://github.com/Senseware/swarmpit-agent) - Swarmpit agent
 * db - CouchDB (Application data)
 * influxdb - InfluxDB (Cluster statistics)
 
@@ -81,17 +109,17 @@ Swarmpit is published on port `888` by default.
 
 ## Environment Variables
 
-Refer to following [document](https://github.com/swarmpit/swarmpit/blob/master/doc/configuration.md) 
+Refer to [doc/configuration.md](doc/configuration.md)
 
 ## User Configuration
 
 By default Swarmpit offers you to configure first user using web interface. If you want to automate this process, you can use docker config to provide users.yaml file.
 
-Refer to following [document](https://github.com/swarmpit/swarmpit/blob/master/doc/USER_CONFIG.md) for details.
+Refer to [doc/USER_CONFIG.md](doc/USER_CONFIG.md) for details.
 
 ## User Types
 
-Refer to following [document](https://github.com/swarmpit/swarmpit/blob/master/doc/user_types.md) 
+Refer to [doc/user_types.md](doc/user_types.md)
 
 ## Development
 

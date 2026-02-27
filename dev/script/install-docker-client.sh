@@ -1,4 +1,4 @@
-version=${DOCKER_VERSION:-"19.03.5"}
+version=${DOCKER_VERSION:-"29.0.0"}
 case $(uname -m) in
     armv6*)  arch=armhf ;;
     armv7*)  arch=armhf ;;
@@ -11,5 +11,5 @@ arch=${ARCH:-$arch}
 url=https://download.docker.com/linux/static/stable/"$arch"/docker-"$version".tgz
 echo installing $url
 cd /tmp || exit
-curl -k $url | tar xz docker/docker
+curl -fsSL "$url" | tar xz docker/docker
 mv docker/docker /usr/bin/docker
